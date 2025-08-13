@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Visual Novel Prototype (2)_Graph
+  m_EditorClassIdentifier: Assembly-CSharp::VNGraph
+  startNodeId: :START
+  nodes:
+  - {fileID: 11400000, guid: a8036d81f48aba8439fcfecedf5412e6, type: 2}
+  - {fileID: 11400000, guid: 480ce237de668d24d905214c7c92e918, type: 2}
+  - {fileID: 11400000, guid: b03deb59d8498cd46aafad03b7ea3b40, type: 2}
+  - {fileID: 11400000, guid: bf628f156cc120f479b8537e73a9256c, type: 2}
+  - {fileID: 11400000, guid: bc982cb7e3140c545b7ec51f64d55b68, type: 2}
+  - {fileID: 11400000, guid: 6b311598a3f6d1c4d9a37eb527b15ec2, type: 2}
+  - {fileID: 11400000, guid: fab7b575a67327f46b798ee7c3f950f8, type: 2}
+  - {fileID: 11400000, guid: ae5a6af9703563a47bcf69c5ccf6e393, type: 2}
+  - {fileID: 11400000, guid: ed6b80aece988a2489fef7d4fd4fb621, type: 2}

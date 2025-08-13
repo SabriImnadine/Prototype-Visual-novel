@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: "VNNode_Bekijk de wagen \u2192 AutoZonderWielen"
+  m_EditorClassIdentifier: Assembly-CSharp::VNNode
+  nodeId: "Bekijk de wagen \u2192 AutoZonderWielen"
+  body: "Jij:\n\"Uhm\u2026 die is dus\u2026 niet echt klaar?\"\n\nOom (lachend):\n\"Nog
+    niet, nee. Maar dat is juist het punt.\"\n\nVriend (enthousiast):\n\"Je mag zelf
+    kiezen hoe we haar bouwen! Dit wordt jouw wagen.\"\n\nJij (twijfelend):\n\"Wat
+    zijn de opties?\"\n\nOom (serieus):\n\"We kunnen haar bouwen voor pure snelheid.
+    Krachtig, maar dorstig. Of we maken haar eco-effici\xEBnt, ideaal voor lange
+    ritten maar minder explosief.\"\n\n\U0001F449 \n\U0001F449"
+  background: {fileID: 0}
+  choices:
+  - text: "Ik wil snelheid \u2192 Snelheid"
+    targetNodeId: "Ik wil snelheid \u2192 Snelheid"
+  - text: "Ik kies voor zuinig \u2192 Zuinig"
+    targetNodeId: "Ik kies voor zuinig \u2192 Zuinig"

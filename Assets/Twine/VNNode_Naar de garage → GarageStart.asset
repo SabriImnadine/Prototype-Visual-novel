@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: "VNNode_Naar de garage \u2192 GarageStart"
+  m_EditorClassIdentifier: Assembly-CSharp::VNNode
+  nodeId: "Naar de garage \u2192 GarageStart"
+  body: "Oom (staat tegen de werkbank geleund):\n\"Ah, dus jij bent de jongeman over
+    wie ik hoorde.\"\n\nJij (verlegen glimlachend):\n\"Dat ben ik, denk ik...\"\n\nOom
+    (loopt naar de bedekte wagen):\n\"Jullie willen racen in de bergen? Dan hebben
+    jullie lef. Kijk goed.\"\n\n[Hij trekt langzaam het doek weg.]\n\U0001F449"
+  background: {fileID: -3049281845249154650, guid: 3873c5b71ee72f447bcf44e7622b7e4f, type: 3}
+  choices:
+  - text: "Bekijk de wagen \u2192 AutoZonderWielen"
+    targetNodeId: "Bekijk de wagen \u2192 AutoZonderWielen"
