@@ -13,16 +13,30 @@ public class ScreenFader : MonoBehaviour
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;   
+            canvasGroup.interactable = false;     
+        }
     }
 
     void Start()
     {
-        if (canvasGroup != null) StartCoroutine(Fade(0f, fadeDuration)); 
+        if (canvasGroup != null) StartCoroutine(Fade(0f, fadeDuration));
     }
 
     IEnumerator Fade(float target, float dur)
     {
         if (canvasGroup == null) yield break;
+
+        
+        bool block = target > 0.001f;
+        canvasGroup.blocksRaycasts = block;     
+        canvasGroup.interactable = block;       
+
         float start = canvasGroup.alpha;
         float t = 0f;
         while (t < dur)
@@ -32,6 +46,11 @@ public class ScreenFader : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = target;
+
+       
+        block = target > 0.001f;
+        canvasGroup.blocksRaycasts = block;      
+        canvasGroup.interactable = block;        
     }
 
     public void LoadSceneWithFade(string sceneName)
@@ -41,8 +60,8 @@ public class ScreenFader : MonoBehaviour
 
     IEnumerator LoadCo(string sceneName)
     {
-        yield return Fade(1f, fadeDuration);                 
-        yield return SceneManager.LoadSceneAsync(sceneName); 
-        yield return Fade(0f, fadeDuration);                 
+        yield return Fade(1f, fadeDuration);
+        yield return SceneManager.LoadSceneAsync(sceneName);
+        yield return Fade(0f, fadeDuration);
     }
 }

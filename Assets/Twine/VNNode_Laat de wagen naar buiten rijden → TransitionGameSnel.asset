@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VNNode
   nodeId: "Laat de wagen naar buiten rijden \u2192 TransitionGameSnel"
   body: 
-  background: {fileID: 0}
+  background: {fileID: -3049281845249154650, guid: 3873c5b71ee72f447bcf44e7622b7e4f, type: 3}
   choices:
   - text: 'Start Unity minigame: modus snelheid'
     targetNodeId: 'Start Unity minigame: modus snelheid'

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: "VNNode_Ik kies voor zuinig \u2192 Zuinig"
   m_EditorClassIdentifier: Assembly-CSharp::VNNode
   nodeId: "Ik kies voor zuinig \u2192 Zuinig"
-  body: "Jij (loopt eromheen):\n\"Ze lijkt\u2026 lichter? Maar stevig.\"\n\nOom (knikt):\n\"We
-    hebben haar gebouwd om te overleven. Perfecte balans tussen kracht en effici\xEBntie.\"\n\nVriend:\n\"Je
-    wilt dus slim racen. Niet slecht, vriend.\"\n\nJij (vastberaden):\n\"Ik wil verder
-    komen, niet sneller.\"\n\n\U0001F449"
-  background: {fileID: 0}
+  body: "Jij: \"Ze lijkt\u2026 lichter? Maar stevig.\"\n\nOom: \"We hebben haar gebouwd
+    om te overleven. Perfecte balans tussen kracht en effici\xEBntie.\"\n\nVriend:
+    \"Je wilt dus slim racen. Niet slecht, vriend.\"\n\nJij: \"Ik wil verder komen,
+    niet sneller.\"\n"
+  background: {fileID: 3098351800430440526, guid: b86de4bf6a9944840a9bbb4c2e374459, type: 3}
   choices:
   - text: "Laat de wagen naar buiten rijden \u2192 TransitionGameEco"
     targetNodeId: "Laat de wagen naar buiten rijden \u2192 TransitionGameEco"

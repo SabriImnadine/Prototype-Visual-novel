@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: "VNNode_Ik wil snelheid \u2192 Snelheid"
   m_EditorClassIdentifier: Assembly-CSharp::VNNode
   nodeId: "Ik wil snelheid \u2192 Snelheid"
-  body: "Jij (kijkt bewonderend naar de rode lak):\n\"Wauw\u2026 die ziet er echt
-    agressief uit.\"\n\nOom (trots):\n\"Met deze motor vlieg je over die bergen.
-    Maar let op: je tank raakt snel leeg.\"\n\nVriend:\n\"Boem of faal, geen tussenweg.
-    Typisch jij.\"\n\nJij (grijnst):\n\"Ik neem het risico.\"\n\n\U0001F449"
-  background: {fileID: 0}
+  body: "Jij: \"Wauw\u2026 die ziet er echt agressief uit.\"\n\nOom: \"Met deze motor
+    vlieg je over die bergen. Maar let op: je tank raakt snel leeg.\"\n\nVriend:
+    \"Boem of faal, geen tussenweg. Typisch jij.\"\n\nJij: \"Ik neem het risico.\"\n\n"
+  background: {fileID: 3098351800430440526, guid: b86de4bf6a9944840a9bbb4c2e374459, type: 3}
   choices:
   - text: "Laat de wagen naar buiten rijden \u2192 TransitionGameSnel"
     targetNodeId: "Laat de wagen naar buiten rijden \u2192 TransitionGameSnel"
