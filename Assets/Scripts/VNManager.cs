@@ -70,6 +70,7 @@ void SetLastEmotion(SpeakerId id, string emo)
     void Start()
     {
         _typewriter = bodyText.GetComponent<Typewriter>();
+         if (MusicController.Instance) MusicController.Instance.PlayVNMusic();
         string startId = string.IsNullOrEmpty(startNodeOverride) ? graph.startNodeId : startNodeOverride;
         Jump(startId);
     }
@@ -134,10 +135,14 @@ void SetLastEmotion(SpeakerId id, string emo)
         _showingChoices = false;
 
         if (choice.targetNodeId.Contains("TransitionGameSnel", StringComparison.OrdinalIgnoreCase))
-        { ScreenFader.Instance?.LoadSceneWithFade("HillClimbSpeed"); return; }
+        {
+            if (MusicController.Instance) MusicController.Instance.PlaySpeedMusic();
+            ScreenFader.Instance?.LoadSceneWithFade("HillClimbSpeed"); return; }
 
         if (choice.targetNodeId.Contains("TransitionGameEco", StringComparison.OrdinalIgnoreCase))
-        { ScreenFader.Instance?.LoadSceneWithFade("HillClimbEco"); return; }
+        {
+             if (MusicController.Instance) MusicController.Instance.PlayEcoMusic();
+            ScreenFader.Instance?.LoadSceneWithFade("HillClimbEco"); return; }
 
         Jump(choice.targetNodeId);
     }
@@ -286,14 +291,21 @@ void ParseHead(string head, out SpeakerId id, out string emo, out SpeakerSide si
     }
 }
 
-    void LoadSceneSafe(string sceneName)
+  void LoadSceneSafe(string sceneName)
 {
+    
+    if (MusicController.Instance)
+    {
+        if (sceneName == "HillClimbSpeed")      MusicController.Instance.PlaySpeedMusic();
+        else if (sceneName == "HillClimbEco")   MusicController.Instance.PlayEcoMusic();
+        else                                     MusicController.Instance.PlayVNMusic();
+    }
+
     if (ScreenFader.Instance != null)
         ScreenFader.Instance.LoadSceneWithFade(sceneName);
     else
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 }
-
 bool TryAutoActionAtNode()
 {
    
@@ -304,10 +316,14 @@ bool TryAutoActionAtNode()
     if (!string.IsNullOrEmpty(key))
     {
         if (key.IndexOf("TransitionGameSnel", StringComparison.OrdinalIgnoreCase) >= 0)
-        { LoadSceneSafe("HillClimbSpeed"); return true; }
+        {
+                if (MusicController.Instance) MusicController.Instance.PlaySpeedMusic();
+                LoadSceneSafe("HillClimbSpeed"); return true; }
 
         if (key.IndexOf("TransitionGameEco", StringComparison.OrdinalIgnoreCase) >= 0)
-        { LoadSceneSafe("HillClimbEco"); return true; }
+        {
+                  if (MusicController.Instance) MusicController.Instance.PlayEcoMusic();
+                LoadSceneSafe("HillClimbEco"); return true; }
     }
 
     

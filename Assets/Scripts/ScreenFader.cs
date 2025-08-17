@@ -17,7 +17,7 @@ public class ScreenFader : MonoBehaviour
         
         if (canvasGroup != null)
         {
-            canvasGroup.alpha = 0f;
+            canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = false;   
             canvasGroup.interactable = false;     
         }
