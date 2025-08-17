@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: "VNNode_Bekijk de wagen \u2192 AutoZonderWielen"
   m_EditorClassIdentifier: Assembly-CSharp::VNNode
   nodeId: "Bekijk de wagen \u2192 AutoZonderWielen"
-  body: "Jij: \"Uhm\u2026 die is dus\u2026 niet echt klaar?\"\n\nOom: \"Nog niet,
-    nee. Maar dat is juist het punt.\"\n\nVriend: \"Je mag zelf kiezen hoe we haar
-    bouwen! Dit wordt jouw wagen.\"\n\nJij: \"Wat zijn de opties?\"\n\nOom: We kunnen
-    haar bouwen voor pure snelheid. Krachtig, maar dorstig. Of we maken haar eco-effici\xEBnt,
-    ideaal voor lange ritten maar minder explosief.\"\n"
+  body: "Jij[sad]: \"Uhm\u2026 die is dus\u2026 niet echt klaar?\"\n\nOom[thinking:
+    \"Nog niet, nee. Maar dat is juist het punt.\"\n\nVriend[excited]: \"Je mag zelf
+    kiezen hoe we haar bouwen! Dit wordt jouw wagen.\"\n\nJij[smile]: \"Wat zijn
+    de opties?\"\n\nOom[normal]: \"We kunnen haar bouwen voor pure snelheid. Krachtig,
+    maar dorstig.\"\n\nOom[smile]: \"Of we maken haar eco-effici\xEBnt, ideaal voor
+    lange ritten maar minder explosief.\"\n"
   background: {fileID: -4630242310919363411, guid: a2763d11c4ce32745800462cb0ea43db, type: 3}
+  speaker: 0
+  emotion: normal
+  side: 1
+  keepOthersVisible: 1
   choices:
   - text: "Ik wil snelheid \u2192 Snelheid"
     targetNodeId: "Ik wil snelheid \u2192 Snelheid"

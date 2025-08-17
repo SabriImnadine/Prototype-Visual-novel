@@ -17,7 +17,13 @@ public class VNNode : ScriptableObject
 
     [Header("Content")]
     [TextArea(3, 12)] public string body; 
-    public Sprite background;            
+    public Sprite background;        
+
+    [Header("Speaker")]
+    public SpeakerId speaker = SpeakerId.None;   
+    public string    emotion = "normal";        
+    public SpeakerSide side = SpeakerSide.Left; 
+    public bool keepOthersVisible = true;     
 
     [Header("Choices")]
     public List<VNChoice> choices = new List<VNChoice>();

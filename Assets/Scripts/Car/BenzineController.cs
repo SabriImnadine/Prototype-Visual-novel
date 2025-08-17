@@ -17,8 +17,12 @@ public class BenzineController : MonoBehaviour
     [SerializeField] private bool autoDrain = true;  
      [Header("Color Settings")]
     [SerializeField] private Gradient fuelGradient; 
+     [Header("Game Over")]
+    [SerializeField] private RestartUI restartUI;     
+    [SerializeField] private bool triggerOnEmpty = true;
 
-    private float fuel;                              
+    private float fuel;    
+     private bool gameOverTriggered = false;                            
 
     void Awake()
     {
@@ -45,10 +49,18 @@ public class BenzineController : MonoBehaviour
     }
 
        public void Consume(float amount)
+{
+    if (amount <= 0f || gameOverTriggered) return;
+
+    fuel = Mathf.Clamp(fuel - amount, 0f, maxFuel);
+    RefreshUI();
+
+    
+    if (fuel <= 0f && !gameOverTriggered)
     {
-        if (amount <= 0f) return;
-        fuel = Mathf.Clamp(fuel - amount, 0f, maxFuel);
-        RefreshUI();
+        gameOverTriggered = true;
+        restartUI?.ShowGameOver();
+    }
     }
 
    

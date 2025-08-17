@@ -78,6 +78,7 @@ public static class TwineHtmlImporter
 
         AssetDatabase.CreateAsset(graph, graphPath);
         AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
         EditorUtility.DisplayDialog("VN Importer", $"Imported {graph.nodes.Count} passages into a VNGraph asset:\n{graphPath}", "OK");
     }
 

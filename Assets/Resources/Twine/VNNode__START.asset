@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VNNode__START
+  m_EditorClassIdentifier: Assembly-CSharp::VNNode
+  nodeId: :START
+  body: "[Knock knock]\n\nVriend[confident]:\"Yo vriendin, ben je wakker?\"\n\nJij[smile]:
+    \"Ja, kom maar binnen.\"\n\nVriend[thinking]:\"Ik moet je iets vertellen... Heb
+    je al gehoord van die nieuwe hype in Amerika?\"\n\nJij[ugh2]:\"Uhm... welke hype?\"\n\nVriend[normal]:\"Off-road
+    time trials met 4x4\u2019s in bergachtige terreinen! Super gevaarlijk, super
+    cool. Weinig mensen durven eraan mee te doen.\"\n\nJij[talk]:\"Klinkt wel spannend,
+    eerlijk gezegd.\"\n\nVriend[mad]:\"Ik wist dat je dit zou zeggen. Daarom... luister.
+    Mijn oom heeft een garage. Er staat daar iets... speciaals.\"\n\nJij[sad]:\"Maar
+    ik heb geen wagen.\"\n\nVriend[shut]:\"Laat dat maar aan mij over. Kom, we gaan
+    nu.\"\n\n\r\n"
+  background: {fileID: 2554537427939641029, guid: 03130dc8c465cfa45a66cf9dd52df54b, type: 3}
+  speaker: 0
+  emotion: 
+  side: 0
+  keepOthersVisible: 0
+  choices:
+  - text: "Naar de garage \u2192 GarageStart"
+    targetNodeId: "Naar de garage \u2192 GarageStart"

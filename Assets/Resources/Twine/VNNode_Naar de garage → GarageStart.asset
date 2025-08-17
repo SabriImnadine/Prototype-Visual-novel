@@ -13,21 +13,25 @@ MonoBehaviour:
   m_Name: "VNNode_Naar de garage \u2192 GarageStart"
   m_EditorClassIdentifier: Assembly-CSharp::VNNode
   nodeId: "Naar de garage \u2192 GarageStart"
-  body: 'Oom: "Ah, dus jij bent de jongeman over wie ik hoorde."
+  body: 'Oom[serious]: "Ah, dus jij bent de jongevrouw over wie ik hoorde."
 
 
-    Jij: "Dat
-    ben ik, denk ik..."
+    Jij[shy]:
+    "Dat ben ik, denk ik..."
 
 
-    Oom: "Jullie willen racen in de bergen? Dan hebben
-    jullie lef. Kijk goed."
+    Oom[smile2]: "Jullie willen racen in de bergen?
+    Dan hebben jullie lef. Kijk goed."
 
 
     [Hij trekt langzaam het doek weg.]
 
 '
   background: {fileID: 5024281934599483257, guid: eb930f1b2532b644c9a69a6999408cc2, type: 3}
+  speaker: 0
+  emotion: normal
+  side: 1
+  keepOthersVisible: 1
   choices:
   - text: "Bekijk de wagen \u2192 AutoZonderWielen"
     targetNodeId: "Bekijk de wagen \u2192 AutoZonderWielen"

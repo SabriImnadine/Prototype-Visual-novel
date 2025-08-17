@@ -14,6 +14,7 @@ public class VNManager : MonoBehaviour
     public Image backgroundImage;
     public Transform buttonsContainer;
     public Button choiceButtonPrefab;
+    public VNCharacters characters;
 
     [Header("Settings")]
     public string startNodeOverride;
@@ -27,6 +28,44 @@ public class VNManager : MonoBehaviour
 
    
     bool _showingChoices = false;
+
+    SpeakerSide _lastSideMC = SpeakerSide.Left;
+SpeakerSide _lastSideFriend = SpeakerSide.Center;
+SpeakerSide _lastSideUncle = SpeakerSide.Right;
+string _lastEmotionMC = "normal";
+string _lastEmotionFriend = "normal";
+string _lastEmotionUncle = "normal";
+
+readonly Dictionary<string, SpeakerId> _nameToId = new Dictionary<string, SpeakerId>(StringComparer.OrdinalIgnoreCase)
+{
+    { "mc", SpeakerId.MC }, { "jij", SpeakerId.MC },
+    { "friend", SpeakerId.Friend }, { "vriend", SpeakerId.Friend },
+    { "uncle", SpeakerId.Uncle }, { "oom", SpeakerId.Uncle },
+    { "narration", SpeakerId.None }
+};
+
+SpeakerSide GetLastSide(SpeakerId id) =>
+    id == SpeakerId.MC ? _lastSideMC :
+    id == SpeakerId.Friend ? _lastSideFriend : _lastSideUncle;
+
+void SetLastSide(SpeakerId id, SpeakerSide side)
+{
+    if (id == SpeakerId.MC) _lastSideMC = side;
+    else if (id == SpeakerId.Friend) _lastSideFriend = side;
+    else if (id == SpeakerId.Uncle) _lastSideUncle = side;
+}
+
+string GetLastEmotion(SpeakerId id) =>
+    id == SpeakerId.MC ? _lastEmotionMC :
+    id == SpeakerId.Friend ? _lastEmotionFriend : _lastEmotionUncle;
+
+void SetLastEmotion(SpeakerId id, string emo)
+{
+    if (id == SpeakerId.MC) _lastEmotionMC = emo;
+    else if (id == SpeakerId.Friend) _lastEmotionFriend = emo;
+    else if (id == SpeakerId.Uncle) _lastEmotionUncle = emo;
+}
+
 
     void Start()
     {
@@ -60,6 +99,7 @@ public class VNManager : MonoBehaviour
             }
             else
             {
+                 if (TryAutoActionAtNode()) return; 
                 ShowChoices();
             }
         }
@@ -118,6 +158,9 @@ public class VNManager : MonoBehaviour
        
         if (backgroundImage && _current.background)
             backgroundImage.sprite = _current.background;
+    
+        if (characters != null)
+        characters.Apply(_current.speaker, _current.emotion, _current.side, _current.keepOthersVisible);
 
        
         _lines.Clear();
@@ -137,37 +180,186 @@ public class VNManager : MonoBehaviour
 
     void ShowCurrentLine()
     {
-        var line = _lines[_lineIndex];
-        if (_typewriter != null) _typewriter.Play(line);
-        else bodyText.text = line;
-    }
+        string raw = _lines[_lineIndex];
+        string line = raw.Trim();
 
-    void ShowChoices()
-    {
-        ClearButtons();
-
-        if (_current.choices.Count == 0) return;
-
-        
-        _showingChoices = true;
-
-
-        if (_current.choices.Count == 1)
+        // Commandes de mise en scène
+        if (line.StartsWith("!Clear", StringComparison.OrdinalIgnoreCase))
         {
-            var only = _current.choices[0];
+            characters?.HideAll();
+            bodyText.text = "";
+            return;
+        }
+        if (line.Equals("-Right", StringComparison.OrdinalIgnoreCase)) { characters?.HideSide(SpeakerSide.Right); bodyText.text = ""; return; }
+        if (line.Equals("-Left", StringComparison.OrdinalIgnoreCase)) { characters?.HideSide(SpeakerSide.Left); bodyText.text = ""; return; }
+        if (line.Equals("-Center", StringComparison.OrdinalIgnoreCase)) { characters?.HideSide(SpeakerSide.Center); bodyText.text = ""; return; }
 
-            if (only.targetNodeId.Contains("TransitionGameSnel", StringComparison.OrdinalIgnoreCase))
-            { ScreenFader.Instance?.LoadSceneWithFade("HillClimbSpeed"); _showingChoices = false; return; }
-
-            if (only.targetNodeId.Contains("TransitionGameEco", StringComparison.OrdinalIgnoreCase))
-            { ScreenFader.Instance?.LoadSceneWithFade("HillClimbEco"); _showingChoices = false; return; }
-
-            _showingChoices = false;
-            Jump(only.targetNodeId);
+        if (line.StartsWith("+"))
+        {
+            // +Name[emo](Side)
+            var head = line.Substring(1).Trim();
+            ParseHead(head, out var id, out var emo, out var side);
+            if (id != SpeakerId.None)
+            {
+                if (side == SpeakerSide.None) side = GetLastSide(id);
+                if (string.IsNullOrWhiteSpace(emo)) emo = GetLastEmotion(id);
+                characters?.ShowPortrait(id, emo, side);
+                SetLastSide(id, side);
+                SetLastEmotion(id, emo);
+            }
+            bodyText.text = "";
             return;
         }
 
-        foreach (var c in _current.choices)
-            SpawnChoice(c);
+        // Dialogue : Name[emo](Side): texte
+        int colon = line.IndexOf(':');
+        if (colon > 0)
+        {
+            string head = line.Substring(0, colon).Trim();
+            string tail = line.Substring(colon + 1).TrimStart();
+
+            ParseHead(head, out var id, out var emo, out var side);
+
+            if (id == SpeakerId.None) // Narration
+            {
+                characters?.HideAll();
+                PlayText(tail);
+                return;
+            }
+
+            if (side == SpeakerSide.None) side = GetLastSide(id);
+            if (string.IsNullOrWhiteSpace(emo)) emo = GetLastEmotion(id);
+
+            characters?.ShowPortrait(id, emo, side);
+            characters?.FocusOn(side); // focus sur le parlant
+
+            SetLastSide(id, side);
+            SetLastEmotion(id, emo);
+
+            PlayText(tail);
+            return;
+        }
+
+        // Pas de tag -> narration
+        characters?.HideAll();
+        PlayText(line);
     }
+
+void PlayText(string text)
+{
+    if (_typewriter != null) _typewriter.Play(text);
+    else bodyText.text = text;
+}
+
+void ParseHead(string head, out SpeakerId id, out string emo, out SpeakerSide side)
+{
+    id = SpeakerId.None; emo = ""; side = SpeakerSide.None;
+
+    // extraire le nom avant [ ou (
+    string name = head;
+    int b = head.IndexOf('[');
+    int p = head.IndexOf('(');
+    int cut = -1;
+    if (b >= 0 && p >= 0) cut = Mathf.Min(b, p);
+    else if (b >= 0) cut = b;
+    else if (p >= 0) cut = p;
+    if (cut >= 0) name = head.Substring(0, cut).Trim();
+
+    _nameToId.TryGetValue(name, out id);
+
+    // emotion entre [ ]
+    if (b >= 0)
+    {
+        int b2 = head.IndexOf(']', b + 1);
+        if (b2 > b) emo = head.Substring(b + 1, b2 - b - 1).Trim();
+    }
+
+    // side entre ( )
+    if (p >= 0)
+    {
+        int p2 = head.IndexOf(')', p + 1);
+        if (p2 > p)
+        {
+            var sideStr = head.Substring(p + 1, p2 - p - 1).Trim();
+            Enum.TryParse(sideStr, true, out side);
+        }
+    }
+}
+
+    void LoadSceneSafe(string sceneName)
+{
+    if (ScreenFader.Instance != null)
+        ScreenFader.Instance.LoadSceneWithFade(sceneName);
+    else
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+}
+
+bool TryAutoActionAtNode()
+{
+   
+    string key = (_current != null)
+        ? (_current.nodeId ?? _current.name)
+        : string.Empty;
+
+    if (!string.IsNullOrEmpty(key))
+    {
+        if (key.IndexOf("TransitionGameSnel", StringComparison.OrdinalIgnoreCase) >= 0)
+        { LoadSceneSafe("HillClimbSpeed"); return true; }
+
+        if (key.IndexOf("TransitionGameEco", StringComparison.OrdinalIgnoreCase) >= 0)
+        { LoadSceneSafe("HillClimbEco"); return true; }
+    }
+
+    
+    if (_current.choices != null && _current.choices.Count == 1)
+    {
+        var only = _current.choices[0];
+
+        if (only.targetNodeId.IndexOf("TransitionGameSnel", StringComparison.OrdinalIgnoreCase) >= 0)
+        { LoadSceneSafe("HillClimbSpeed"); return true; }
+
+        if (only.targetNodeId.IndexOf("TransitionGameEco", StringComparison.OrdinalIgnoreCase) >= 0)
+        { LoadSceneSafe("HillClimbEco"); return true; }
+
+        Jump(only.targetNodeId);
+        return true;
+    }
+
+    return false;
+}
+
+
+   void ShowChoices()
+{
+    ClearButtons();
+
+    if (_current == null || _current.choices == null || _current.choices.Count == 0)
+        return;
+
+   
+    if (TryAutoActionAtNode())
+        return;
+
+   
+    if (_current.choices.Count == 1)
+    {
+        var only = _current.choices[0];
+
+        if (only.targetNodeId.Contains("TransitionGameSnel", StringComparison.OrdinalIgnoreCase))
+        { ScreenFader.Instance?.LoadSceneWithFade("HillClimbSpeed"); _showingChoices = false; return; }
+
+        if (only.targetNodeId.Contains("TransitionGameEco", StringComparison.OrdinalIgnoreCase))
+        { ScreenFader.Instance?.LoadSceneWithFade("HillClimbEco"); _showingChoices = false; return; }
+
+        _showingChoices = false;
+        Jump(only.targetNodeId);
+        return;
+    }
+
+    
+    _showingChoices = true;
+    foreach (var c in _current.choices)
+        SpawnChoice(c);
+}
+
 }
